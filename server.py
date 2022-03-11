@@ -103,7 +103,7 @@ def world():
 
 @app.route("/entity/<entity>")
 def get_entity(entity):
-    '''This is the GET version of the entity interface, return a representation of the entity'''
+    '''This is the GET version of the entity interface, return a repre  tation of the entity'''
     return json.dumps(myWorld.get(entity))
 
 
@@ -111,6 +111,7 @@ def get_entity(entity):
 def clear():
     '''Clear the world out!'''
     myWorld.clear()
+    return json.dumps(myWorld.world())
 
 
 if __name__ == "__main__":
