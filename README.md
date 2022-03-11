@@ -1,5 +1,4 @@
-CMPUT404-assignment-ajax
-==============================
+# CMPUT404-assignment-ajax
 
 CMPUT404-assignment-ajax
 
@@ -7,9 +6,11 @@ See requirements.org (plain-text) for a description of the project.
 
 Make a shared state AJAX drawing program
 
-Contributors / Licensing
-========================
+# Contributors / Licensing
 
 Generally everything is LICENSE'D under the Apache 2 license by Abram Hindle.
 
+# Collaboration
 
+- Took help of ccid: gengyuan on how to make things prettier. Other than that everything done by student.
+- the cowboy hat came from https://pngimg.com/

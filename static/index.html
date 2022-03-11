@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width" />
     <meta name="license" content="
         Copyright 2013 Abram Hindle
-        
+        Copyright 2022 Nasif Hossain
         Licensed under the Apache License, Version 2.0 (the "License");
         you may not use this file except in compliance with the License.
         You may obtain a copy of the License at
@@ -43,7 +43,6 @@ function sendJSONXMLHTTPRequest(url, objects, callback) {
 
                     //XXX: Pass the data to the callback!
                     callback(jsonResponse)
-
                 }
             } 
             catch(e) {
@@ -55,7 +54,7 @@ function sendJSONXMLHTTPRequest(url, objects, callback) {
     xhr.open("POST", url)
 
     //XXX: set the mimetype and the accept headers!
-    xhr.overrideMimeType("application/json")
+    xhr.overrideMimeType('application/json');
     xhr.setRequestHeader('Accept', 'application/json')
 
     // Remember to use application/json !
@@ -108,9 +107,9 @@ function prepEntity(entity) {
 
 function clearFrame() {
     with(context) {
-	moveTo(0,0);
-	fillStyle = "#000";
-	fillRect(0,0,W,H);
+        moveTo(0,0);
+        fillStyle = "#000";
+        fillRect(0,0,W,H);
     }
 
 }
@@ -169,6 +168,10 @@ function addEntity(entity, data) {
     world[entity] = data;
     drawNextFrame(); // (but should we?)
     //XXX: Send a XHTML Request that updates the entity you just  modified!
+    var url = "/entity/" + entity;
+
+    sendJSONXMLHTTPRequest(url, data, (response) => {});
+
 
 }
 
@@ -288,17 +291,27 @@ mouse.mouseuppers.push(function(x,y,clicked,e) {
 mouse.mousedraggers.push(function(x,y,clicked,e) {
     // addEntityWithoutName({'x':x,'y':y,'colour':'green',
     //                       'radius':10});
-    addEntityWithoutName({
-        'x': x,
-        'y': y,
-        'type': 'hat'
-    });
+    addEntityWithoutName({'x': x,'y': y,'type': 'hat'});
 });
-
 
 function update() {
     //XXX: TODO Get the world from the webservice using a XMLHTTPRequest
-    drawFrame();
+    var xmlRequest = new XMLHttpRequest();
+    try{
+        xmlRequest.onreadystatechange = function() {
+            if (this.status == 200) {
+                world = JSON.parse(xmlRequest.responseText);
+            }
+        };
+
+        xmlRequest.open("GET", "/world", true);
+        xmlRequest.send();
+
+        renderFrame();
+    }
+    catch(e){
+        alert("Error: " + e.name)
+    }
 }
 
 // 30 frames per second
