@@ -81,6 +81,21 @@ function drawCircle(context,entity) {
     }
 }
 
+function drawHat(context, entity){
+    var img = document.createElement("img");
+    img.src = "https://pngimg.com/uploads/cowboy_hat/cowboy_hat_PNG86.png";             
+    with(context) {
+        beginPath(); 
+        var x = entity["x"];
+        var y = entity["y"];
+        //moveTo(x,y);
+        // fillStyle = entity["colour"];
+        // strokeStyle = fillStyle;
+        drawImage(img, x , y , 40, 40);
+        stroke();                                
+    }
+}
+
 function prepEntity(entity) {
     if (!entity["colour"]) {
         entity["colour"] = "#FF0000";
@@ -105,7 +120,12 @@ function renderFrame() {
     clearFrame();
     for (var key in world) {
         var entity = world[key];
-        drawCircle(context,prepEntity(entity));
+        var type = entity["type"];
+        if (type == "hat") {
+            drawHat(context, prepEntity(entity));
+        } else {
+            drawCircle(context, prepEntity(entity));
+        }    
     }
 }
 
@@ -258,16 +278,21 @@ mouse = (function() {
 // Add the application specific mouse listeners!
 //XXX: TODO Make these prettier!
 mouse.mousedowners.push(function(x,y,clicked,e) {
-    addEntityWithoutName({'x':x,'y':y,'colour':'blue'});
+    addEntityWithoutName({'x':x,'y':y,'colour':'white', 'radius':20});
 });
 
 mouse.mouseuppers.push(function(x,y,clicked,e) {
-    addEntityWithoutName({'x':x,'y':y,'colour':'red'});
+    addEntityWithoutName({'x':x,'y':y,'colour':'orange', 'radius': 50});
 });
 
 mouse.mousedraggers.push(function(x,y,clicked,e) {
-    addEntityWithoutName({'x':x,'y':y,'colour':'green',
-                          'radius':10});
+    // addEntityWithoutName({'x':x,'y':y,'colour':'green',
+    //                       'radius':10});
+    addEntityWithoutName({
+        'x': x,
+        'y': y,
+        'type': 'hat'
+    });
 });
 
 
