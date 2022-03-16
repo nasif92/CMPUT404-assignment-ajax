@@ -294,24 +294,30 @@ mouse.mousedraggers.push(function(x,y,clicked,e) {
     addEntityWithoutName({'x': x,'y': y,'type': 'hat'});
 });
 
+
+
 function update() {
     //XXX: TODO Get the world from the webservice using a XMLHTTPRequest
     var xmlRequest = new XMLHttpRequest();
-    try{
-        xmlRequest.onreadystatechange = function() {
-            if (this.status == 200) {
-                world = JSON.parse(xmlRequest.responseText);
+    xmlRequest.onreadystatechange = function () {
+        if (xmlRequest.readyState==4) {
+            try {
+                if (xmlRequest.status==200) {
+                    world = JSON.parse(xmlRequest .responseText);
+                    drawNextFrame();
+                }
+            } 
+            catch(e) {
+                alert('Error: ' + e.name);
             }
-        };
+        }
+    };
 
-        xmlRequest.open("GET", "/world", true);
-        xmlRequest.send();
-
-        renderFrame();
-    }
-    catch(e){
-        alert("Error: " + e.name)
-    }
+    xmlRequest.open("GET", "/world");
+    xmlRequest.setRequestHeader("Accept", "application/json");
+    xmlRequest.send(null);
+						   
+    drawFrame();		
 }
 
 // 30 frames per second
