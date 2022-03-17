@@ -25,9 +25,7 @@
 import flask
 from flask import Flask, request, redirect
 import json
-from matplotlib.font_manager import json_dump
 
-from py import code
 app = Flask(__name__)
 app.debug = True
 
